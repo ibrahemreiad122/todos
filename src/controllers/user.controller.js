@@ -9,7 +9,13 @@ module.exports = {
       name: name,
       password: password
     });
-    return user.save();
+    return user.save()
+      .then(user => {
+        const token = jwt.sign(user.toJSON(), "test", {
+          expiresIn: "1day"
+        });
+        return { token, user };
+      })
   },
   login(email, password) {
     return User.findOne({ email: email }).then(user => {

@@ -5,10 +5,11 @@ router.post("/register", (req, res, next) => {
   let data = req.body;
   return userController
     .register(data.email, data.name, data.password)
-    .then(doc =>
+    .then(data =>
       res
         .status(201)
-        .send(doc)
+        .header("auth", data.token)
+        .send(data.user)
         .end()
     )
     .catch(err => {
