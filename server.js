@@ -6,7 +6,8 @@ const mongoose = require("mongoose"),
   bodyParser = require("body-parser"),
   cors = require("cors"),
   app = express(),
-  PORT = 3000;
+  PORT = process.env.PORT || 3000,
+  mongoUri = process.env.MONGODB_URI || 'mongodb://localhost/todos-service';
 app.use(
   cors({
     exposedHeaders: ["auth"]
@@ -18,7 +19,7 @@ app.use(bodyParser.json());
 app.use("/api/todos", todoRoutes); // if we have not base route this midellware must be after user
 app.use("/api/users", userRoutes);
 
-mongoose.connect("mongodb://localhost/todos-service", {
+mongoose.connect(mongoUri, {
   useUnifiedTopology: true,
   useNewUrlParser: true,
   useCreateIndex: true,
